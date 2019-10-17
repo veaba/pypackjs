@@ -4,6 +4,39 @@ from utils import merge_dict, list_to_str
 import re
 
 
+# class:Match  result. Single element of array, returned by [[LinkifyIt#match]]
+
+
+def normalize(match):
+    if not match['schema']:
+        match['url'] = 'http://' + match['url']
+    if match['schema'] == 'mailto:' and not re.match(match['url']):
+        match['url'] = 'mailto:' + match['url']
+
+
+class Match:
+    def __init__(self, cls, shift):
+        start = cls._index
+        end = cls._last_index
+        text = cls._text_cache_[start, end]
+
+        # 转小写
+        self.schema = cls._schema.lower()
+
+        self.index = start + shift
+
+        self.lastIndex = end + shift
+
+        self.raw = text
+        self.text = text
+        self.url = text
+
+    def createMatch(self, cls, shift):
+        match = Match(cls, shift)
+        normalize(match)
+        return match
+
+
 class LinkifyIt:
     _tlds_replaced = None
     _tlds = None
@@ -40,16 +73,16 @@ class LinkifyIt:
         # todo
         compile(self)
 
-    @classmethod
-    def compile(cls):
+    @staticmethod
+    def compile(self):
         from linkify_it_re import linkifyItRe
         # todo 这个class 方法如何访问到类的私有属性
-        re_dict = cls.re = linkifyItRe(cls._opts)
-        tlds = cls._tlds
-        cls.onCompile()
-        if not cls._tlds_replaced:
+        re_dict = self.re = linkifyItRe(self._opts)
+        tlds = self._tlds
+        self.onCompile()
+        if not self._tlds_replaced:
             tlds_2ch_src_re = 'a[cdefgilmnoqrstuwxz]|b[abdefghijmnorstvwyz]|c[acdfghiklmnoruvwxyz]|d[ejkmoz]|e[cegrstu]|f[ijkmor]|g[abdefghilmnpqrstuwy]|h[kmnrtu]|i[delmnoqrst]|j[emop]|k[eghimnprwyz]|l[abcikrstuvy]|m[acdeghklmnopqrstuvwxyz]|n[acefgilopruz]|om|p[aefghklmnrstwy]|qa|r[eosuw]|s[abcdeghijklmnortuvxyz]|t[cdfghjklmnortvwz]|u[agksyz]|v[aceginu]|w[fs]|y[et]|z[amw]';
-            cls._tlds.append(tlds_2ch_src_re)
+            self._tlds.append(tlds_2ch_src_re)
         tlds.append(re_dict['src_xn'])
         re_dict['src_tlds'] = list_to_str(tlds, '|')
 
@@ -65,7 +98,7 @@ class LinkifyIt:
         # Compile each schema
 
         aliased = []
-        cls._compiled = {}  # // Reset compiled data
+        self._compiled = {}  # // Reset compiled data
 
         # todo 这里省略一坨
 
