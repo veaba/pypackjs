@@ -1,11 +1,10 @@
 # python 版本markdown-it pymarkdown-it
-from common.utils import isString, throwError, assign_dict
+from common.utils import isString,throwError,assign_dict
 from parser_inline import ParserInline
 from parser_block import ParserBlock
 from parser_core import ParserCore
 from renderer import Renderer
 import re
-
 
 # @staticmethod
 # @classmethod
@@ -43,7 +42,7 @@ class MarkdownIt:
                 self.options = self.presetName or {}
                 self.presetName = 'default'
 
-    def __set__(self, options=None):
+    def __set(self, options):
         if options is None:
             options = {}
         assign_dict(self.options, options)
@@ -52,7 +51,7 @@ class MarkdownIt:
     def configure(self, presets):
         # 先判断不存在
         if not presets:
-            return throwError()
+            return throwError('不存在：presets')
         if isString(presets):
             self.presetName = presets
             presets = self.__config[self.presetName] # TODO 这里能重写上面这个变量吗？
