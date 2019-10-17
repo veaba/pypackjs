@@ -2,6 +2,8 @@
 
 Links recognition library with full unicode support http://markdown-it.github.io/linkify-it/
 
+这个项目是为了匹配链接，其实可以不管他，很底层的结构
+-[demo](http://markdown-it.github.io/linkify-it/)
 
 ```js
 var linkify = require('linkify-it')();
