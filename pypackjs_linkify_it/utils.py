@@ -7,9 +7,10 @@ def list_to_str(str_list, code=""):
 
 
 # 右边合并左边
-# def merge_dict(left, right):
-#     print(left,right)
-#     return left.update(right)
+def assign_dict(left, right):
+    print(left, right)
+    return left.update(right)
+
 
 # 合并两边数组
 def merge_dict(left, right):

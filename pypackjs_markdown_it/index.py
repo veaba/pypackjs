@@ -1,9 +1,10 @@
 # python 版本markdown-it pymarkdown-it
-from common.utils import isString
+from common.utils import isString, throwError, assign_dict
 from parser_inline import ParserInline
 from parser_block import ParserBlock
 from parser_core import ParserCore
 from renderer import Renderer
+import re
 
 
 # @staticmethod
@@ -17,6 +18,18 @@ class MarkdownIt:
         self.core = ParserCore()  # todo
         self.renderer = Renderer()  # todo
         # todo self.linkify= LinkifyIt() 底层的URL解析工具，暂停拓展开发
+
+        # 设置私有属性
+        from presets.default import default
+        from presets.zero import zero
+        from presets.commonmark import commonmark
+        self.__config = {
+            'default': default,
+            'zero': zero,
+            'commonmark': commonmark
+        }
+        self.__BAD_PROTO_RE = re.compile(r'/^(vbscript|javascript|file|data):/')
+        self.GOOD_DATA_RE = re.compile(r'/^data:image\/(gif|png|jpeg|webp);/')
         MarkdownIt.init(self)
 
     # 静态方法
@@ -29,6 +42,20 @@ class MarkdownIt:
             if not isString(self.presetName):
                 self.options = self.presetName or {}
                 self.presetName = 'default'
+
+    def __set__(self, options=None):
+        if options is None:
+            options = {}
+        assign_dict(self.options, options)
+        return self
+
+    def configure(self, presets):
+        # 先判断不存在
+        if not presets:
+            return throwError()
+        if isString(presets):
+            self.presetName = presets
+            presets = self.__config[self.presetName] # TODO 这里能重写上面这个变量吗？
 
 
 markdown = MarkdownIt('aa', {"name": "ok"})
