@@ -120,9 +120,10 @@ class MarkdownIt:
         return state['tokens']
 
     # renderInline
-    def renderInline(self, src, env):
-        env = env or {}
-        return self.renderer.render(self.parseInline(src, env), self.options, env)
+    def renderInline(self,src,env):
+        env=env or {}
+        return self.renderer.render(self.parseInline(src,env),self.options,env)
+
 
 
 markdown = MarkdownIt('aa', {"name": "ok"})
