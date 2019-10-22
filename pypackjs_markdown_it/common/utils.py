@@ -30,8 +30,9 @@ def assign_dict(left, right):
 def unescapeAll(string):
     pass
 
+# todo 
 def escapeHtml(string):
-    pass
+    return string
 
 # 判断是不是空白行
 def isWhiteSpace(code):
