@@ -102,7 +102,7 @@ class MarkdownIt:
     def parse(self, src, env):
         if not isString(src):
             return throwError('Input data should be a String')
-        state = self.core.State(src, self, env)
+        state = self.core.State
         self.core.process(state)
         return state['tokens']
 
@@ -113,7 +113,7 @@ class MarkdownIt:
 
     # todo 解析行数据
     def parseInline(self, src, env):
-        state = self.core.State(src, self, env)
+        state = self.core.State
         print(state)  # todo
         state['inlineMode'] = True
         self.core.process(state)

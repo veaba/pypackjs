@@ -1,5 +1,5 @@
 # todo
-from rules import Rules
+from Ruler import Ruler
 from rules_inline import StateInline
 
 # rule1
@@ -45,8 +45,12 @@ _rules2 = [
 
 class ParserInline:
     def __init__(self):
-        self.ruler = Rules()
-        pass
+        self.ruler = Ruler()
+        for i in _rules:
+            self.ruler.append(_rules[i][0], _rules[i][1])
+        self.ruler2 = Ruler()
+        for i in _rules:
+            self.ruler2.append(_rules2[i][0], _rules2[i][1])
 
     # todo
     def skipToken(self, state):
@@ -57,6 +61,18 @@ class ParserInline:
         length = len(rules)
         maxNesting = state.md.options.maxNesting
         cache = state['cache']
+        if cache[pos]:
+            state['pos'] = cache[pos]
+            return
+        if state['level'] < maxNesting:
+            for i in range(length):
+                state['level'] = state['level'] + 1
+                ok = rules[i](state, True)
+                state['level'] = state['level'] - 1
+                if ok:
+                    break
+        else:
+            state['pos']=state['posMax']
 
     # todo
     def tokenize(self, state):
@@ -91,16 +107,12 @@ class ParserInline:
     # todo
     # 推荐令牌
     def parse(self, string, md, env, outTokens):
-        i = None
-        rules = None
-        length = None
         state = self.State(string, md, env, outTokens)
         self.tokenize(state)
         rules = self.ruler2.getRules('')
-        length = len(rules)
-        for i in range(length):
+        for i in range(len(rules)):
             rules[i](state)
 
     # todo
-    def State(self):
-        return StateInline()
+    def State(self, string, md, env, outTokens):
+        return StateInline(string, md, env, outTokens)

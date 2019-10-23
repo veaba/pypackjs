@@ -27,12 +27,15 @@ def merge_dict(left, right):
 def assign_dict(left, right):
     left.update(right)
 
+
 def unescapeAll(string):
     pass
 
-# todo 
+
+# todo
 def escapeHtml(string):
     return string
+
 
 # 判断是不是空白行
 def isWhiteSpace(code):
@@ -104,5 +107,3 @@ def isMdAsciiPunct(ch):
         return True
     else:
         return False
-
-
