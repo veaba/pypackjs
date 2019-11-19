@@ -2,6 +2,8 @@
 
 > 这是一个概念性项目，目前作为tensorflow-docs项目的衍生性项目，诞生的原因是vuepress 打包2.5k的markdown文件需要花费3个小时，这一点无法忍受，而webpack是js平台的
 
+如果使用js生态，通过py多线程的方式会更加好一点吧，类似 分布式构建
+
 ## 充电中。。
 - 【 :battery:充电中：项目暂停：】需要补充下python 的class 概念，否则很难下去~~~
     - 静态方法
@@ -39,9 +41,12 @@
 - 现在我要用python重写markdown-it(我感觉这个项目可以做十年了)，尽量偷工减料下完成吧！！有点难了
 
 ## 参考重点项目
-
+- [webpack.js](https://github.com/webpack/webpack) JS打包工具
 - [markdown-it](https://github.com/markdown-it/markdown-it) 一款markdown 格式转为HTML
 - [highlight.js](https://github.com/highlightjs/highlight.js) 一款高亮代码
+- [astexplore](https://github.com/fkling/astexplorer) 一个集成多个编程语言或者格式转为其他格式AST的web工具集项目 [A web ast tool：AST explore ](https://astexplorer.net/)
+- [html2text](https://github.com/aaronsw/html2text) 一个Python版本的HTML转markdown工具
+- [prettier](https://prettier.io/) code format
 
 ## markdown-it 项目递归结构
 
